@@ -19,6 +19,14 @@ class SurveyInputPage(webapp.RequestHandler):
     def get(self):
         html = template.render('templates/header.html', {'title': 'ohheyyytherehihihihelloooooooo'})
         html = html + template.render('templates/form_start.html', {})
+        surveys = db.GqlQuery("SELECT * FROM Survey")
+        html = html +  "do you want to take one of these surveys?<br>"
+
+        for survey in surveys:
+            html = html + "<INPUT TYPE=RADIO NAME='SurveyInputPage' VALUE=" + str(survey.question) + "> %s <br>" %survey.question + "<br>"
+            #html = html + str(survey.question) + "<br>"
+            
+        html = html +  "<br>or would you like to make your own survey??<br>"
         html = html + str(SurveyForm(auto_id=False))
         html = html + template.render('templates/form_end.html', {'sub_title': 'Submit'})
         html = html + template.render('templates/footer.html', {'links': ''})
@@ -27,7 +35,9 @@ class SurveyInputPage(webapp.RequestHandler):
     def post(self): 
         new_survey = surveyDB.Survey()
         new_survey.question = self.request.get('question')
-        new_survey.answer = self.request.get('answer')
+        new_survey.answerOne = self.request.get('answerOne')
+        new_survey.answerTwo = self.request.get('answerTwo')
+        new_survey.answerThree = self.request.get('answerThree')
         new_survey.which_user = users.get_current_user()
 
         new_survey.put()
