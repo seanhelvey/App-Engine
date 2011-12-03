@@ -1,4 +1,4 @@
-application: hfwwg
+application: ohheyyytherehihihihelloooooooo
 version: 1
 runtime: python
 api_version: 1
@@ -12,5 +12,6 @@ handlers:
   upload: favicon\.ico
 
 - url: .*
-  script: hfwwg.py
+  script: survey.py
+  login: required
 
