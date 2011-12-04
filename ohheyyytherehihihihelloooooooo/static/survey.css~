@@ -1,0 +1,9 @@
+body {
+     text-align:center
+}
+
+#wrapper {
+        margin: 0 auto;
+        width: 800px; /* Replace the xxxx with the the width of your site (eg 800px)*/
+        text-align:left;
+}

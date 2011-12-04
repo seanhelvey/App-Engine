@@ -17,19 +17,21 @@ class SurveyForm(djangoforms.ModelForm):
 
 class SurveyInputPage(webapp.RequestHandler):
     def get(self):
-        html = template.render('templates/header.html', {'title': 'SURVEY'})
+        html = template.render('templates/header.html', {})
+        html = html + '<div id="wrapper">'
         html = html + template.render('templates/form_start.html', {})
         surveys = db.GqlQuery("SELECT * FROM FrontPage WHERE name != ''")
-        html = html +  "<h2>Do you want to take one of these surveys?<br></h2>"
+        html = html +  "<h3>Do you want to take one of these surveys?<br></h3>"
 
         for survey in surveys:
             x = survey.name
             x = x.replace(" ","_")
             html = html + "<INPUT TYPE=RADIO NAME='choice' VALUE=" + x + "> %s" %survey.name + "<br>"
             
-        html = html +  "<h2>Or would you like to make your own survey?<br></h2>"
+        html = html +  "<h3>Or would you like to make your own survey?<br></h3>"
         html = html + str(SurveyForm(auto_id=False))
         html = html + template.render('templates/form_end.html', {'sub_title': 'Submit'})
+        html = html + '</div>'
         html = html + template.render('templates/footer.html', {'links': ''})
         self.response.out.write(html)
 
@@ -37,10 +39,22 @@ class SurveyInputPage(webapp.RequestHandler):
         
         front_page = surveyDB.FrontPage()
         front_page.name = self.request.get('name')
-        front_page.question = self.request.get('question')
-        front_page.answerOne = self.request.get('answerOne')
-        front_page.answerTwo = self.request.get('answerTwo')
-        front_page.answerThree = self.request.get('answerThree')
+
+        front_page.q1 = self.request.get('q1')
+        front_page.q1a1 = self.request.get('q1a1')
+        front_page.q1a2 = self.request.get('q1a2')
+        front_page.q1a3 = self.request.get('q1a3')
+
+        front_page.q2 = self.request.get('q2')
+        front_page.q2a1 = self.request.get('q2a1')
+        front_page.q2a2 = self.request.get('q2a2')
+        front_page.q2a3 = self.request.get('q2a3')
+
+        front_page.q3 = self.request.get('q3')
+        front_page.q3a1 = self.request.get('q3a1')
+        front_page.q3a2 = self.request.get('q3a2')
+        front_page.q3a3 = self.request.get('q3a3')
+
         front_page.choice = self.request.get('choice')
         front_page.which_user = users.get_current_user()
         front_page.put()
