@@ -13,8 +13,7 @@ cgitb.enable()
 class SurveyForm(djangoforms.ModelForm):                                     
     class Meta:                                                                
         model = surveyDB.Survey
-        exclude = ['choice']
-        exclude = ['which_user']
+        exclude = ['choice','which_user']
 
 class SurveyInputPage(webapp.RequestHandler):
     def get(self):
