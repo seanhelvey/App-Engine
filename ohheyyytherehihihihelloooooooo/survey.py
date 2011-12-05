@@ -126,7 +126,40 @@ class SurveyInputPage(webapp.RequestHandler):
 
 class ResultsPage(webapp.RequestHandler):
     def get(self):
-        html = "<html><head><title></title></head><body>hello</body></html>"
+        surveys = db.GqlQuery("SELECT * FROM FrontPage WHERE name != ''")        
+        responses = db.GqlQuery("SELECT * FROM FrontPage WHERE name = '' AND choice = ''")
+        html = "<html><head><title></title></head><body>"
+
+        for survey in surveys:
+            for response in responses:
+                if survey.q1a1 == response.q1a1:
+                    html = html + response.q1a1 + "<br>"
+
+                if survey.q1a2 == response.q1a2:
+                    html = html + response.q1a2 + "<br>"
+
+                if survey.q1a3 == response.q1a3:
+                    html = html + response.q1a3 + "<br>"
+
+                if survey.q2a1 == response.q2a1:
+                    html = html + response.q2a1 + "<br>"
+
+                if survey.q2a2 == response.q2a2:
+                    html = html + response.q2a2 + "<br>"
+
+                if survey.q2a3 == response.q2a3:
+                    html = html + response.q2a3 + "<br>"
+
+                if survey.q3a1 == response.q3a1:
+                    html = html + response.q3a1 + "<br>"
+
+                if survey.q3a2 == response.q3a2:
+                    html = html + response.q3a2 + "<br>"
+
+                if survey.q3a3 == response.q3a3:
+                    html = html + response.q3a3 + "<br>"
+
+        html = html + "</body></html>"
         self.response.out.write(html)
 
 app = webapp.WSGIApplication([('/', SurveyInputPage),('/results',ResultsPage)], debug=True)
