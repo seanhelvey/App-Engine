@@ -17,6 +17,7 @@ class SurveyForm(djangoforms.ModelForm):
 
 class SurveyInputPage(webapp.RequestHandler):
     def get(self):
+
         html = template.render('templates/header.html', {})
         html = html + '<div id="wrapper">'
         html = html + template.render('templates/form_start.html', {})
@@ -55,15 +56,28 @@ class SurveyInputPage(webapp.RequestHandler):
         front_page.q3a2 = self.request.get('q3a2')
         front_page.q3a3 = self.request.get('q3a3')
 
-        front_page.choice = self.request.get('choice')
+        y = self.request.get('choice')
+        front_page.choice = y
         front_page.which_user = users.get_current_user()
         front_page.put()
         
-        html = template.render('templates/header.html', {'title': 'Thank you!'})
+        surveys = db.GqlQuery("SELECT * FROM FrontPage WHERE name != ''")        
+        html = template.render('templates/header.html', {})
+        
+        for survey in surveys:
+            z = survey.name
+            z = z.replace(" ","_")
+            if y == z:
+                print survey.name
+                print survey.q1
+                print survey.q1a1
+                print survey.q1a2
+                print survey.q1a3
+
         html = html + template.render('templates/footer.html',
                                       {'links': 'Enter <a href="/">another</a>.'})
-        self.response.out.write(html)        
-        
+        self.response.out.write(html)
+
 app = webapp.WSGIApplication([('/.*', SurveyInputPage)], debug=True)
 
 def main():
