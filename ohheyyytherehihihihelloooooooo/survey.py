@@ -64,23 +64,59 @@ class SurveyInputPage(webapp.RequestHandler):
         #if the user chose a survey to take
         if y != '':   
 
-            response_page = surveyDB.ResponsePage()
+            #get all of the surveys in the datastore
             surveys = db.GqlQuery("SELECT * FROM FrontPage WHERE name != ''")
-
             for survey in surveys:
                 z = survey.name
                 z = z.replace(" ","_")
+
+                #take the survey that is chosen by the user
                 if y == z:
                     html = template.render('templates/header.html', {})        
                     html = html + template.render('templates/form_start.html', {})
-                    html = html + survey.q1 + "<br>"
-                    html = html + "<INPUT TYPE=RADIO NAME='q1a1' VALUE=" + survey.q1a1 + "> %s" %survey.q1a1 + "<br>"
-                    html = html + "<INPUT TYPE=RADIO NAME='q1a1' VALUE=" + survey.q1a2 + "> %s" %survey.q1a2 + "<br>"
-                    html = html + "<INPUT TYPE=RADIO NAME='q1a1' VALUE=" + survey.q1a3 + "> %s" %survey.q1a3 + "<br>"
+
+                    if(survey.q1 != ''):
+                        html = html + survey.q1 + "<br>"
+                    
+                    if(survey.q1a1 != ''):
+                        html = html + "<INPUT TYPE=checkbox NAME='q1a1' VALUE=" + survey.q1a1 + "> %s" %survey.q1a1 + "<br>"
+
+                    if(survey.q1a2 != ''):
+                        html = html + "<INPUT TYPE=checkbox NAME='q1a2' VALUE=" + survey.q1a2 + "> %s" %survey.q1a2 + "<br>"
+                
+                    if(survey.q1a3 != ''):
+                        html = html + "<INPUT TYPE=checkbox NAME='q1a3' VALUE=" + survey.q1a3 + "> %s" %survey.q1a3 + "<br>"
+
+                    if(survey.q2 != ''):
+                        html = html + survey.q2 + "<br>"
+
+                    if(survey.q2a1 != ''):
+                        html = html + "<INPUT TYPE=checkbox NAME='q2a1' VALUE=" + survey.q2a1 + "> %s" %survey.q2a1 + "<br>"
+                    
+                    if(survey.q2a2 != ''):                        
+                        html = html + "<INPUT TYPE=checkbox NAME='q2a2' VALUE=" + survey.q2a2 + "> %s" %survey.q2a2 + "<br>"
+
+                    if(survey.q2a3 != ''):
+                        html = html + "<INPUT TYPE=checkbox NAME='q2a3' VALUE=" + survey.q2a3 + "> %s" %survey.q2a3 + "<br>"
+
+                    if(survey.q3 != ''):
+                        html = html + survey.q3 + "<br>"
+
+                    if(survey.q3a1 != ''):
+                        html = html + "<INPUT TYPE=checkbox NAME='q3a1' VALUE=" + survey.q3a1 + "> %s" %survey.q3a1 + "<br>"
+
+                    if(survey.q3a2 != ''):
+                        html = html + "<INPUT TYPE=checkbox NAME='q3a2' VALUE=" + survey.q3a2 + "> %s" %survey.q3a2 + "<br>"
+
+                    if(survey.q3a3 != ''):
+                        html = html + "<INPUT TYPE=checkbox NAME='q3a3' VALUE=" + survey.q3a3 + "> %s" %survey.q3a3 + "<br>"
+
                     html = html + template.render('templates/form_end.html', {'sub_title': 'Submit'})
                     html = html + template.render('templates/footer.html',{'links': 'Enter <a href="/">another</a>.'})
+
                     self.response.out.write(html)
 
+        #the user chose to enter a new survey
         else:
             html = template.render('templates/header.html', {})        
             html = html + template.render('templates/footer.html',{'links': 'Enter <a href="/">another</a>.'})            

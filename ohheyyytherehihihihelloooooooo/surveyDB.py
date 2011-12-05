@@ -20,6 +20,3 @@ class FrontPage(db.Model):
 
     choice = db.StringProperty()
     which_user = db.UserProperty()
-
-class ResponsePage(db.Model):
-    answer = db.StringProperty()
