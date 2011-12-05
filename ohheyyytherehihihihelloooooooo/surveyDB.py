@@ -18,5 +18,8 @@ class FrontPage(db.Model):
     q3a2 = db.StringProperty()
     q3a3 = db.StringProperty()
 
+    submit = db.StringProperty()
+    results = db.StringProperty()
+
     choice = db.StringProperty()
     which_user = db.UserProperty()

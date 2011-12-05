@@ -13,14 +13,14 @@ cgitb.enable()
 class SurveyForm(djangoforms.ModelForm):                                     
     class Meta:                                                                
         model = surveyDB.FrontPage
-        exclude = ['choice','which_user']
+        exclude = ['choice','which_user','submit','results']
 
 class SurveyInputPage(webapp.RequestHandler):
     def get(self):
 
         html = template.render('templates/header.html', {})
         html = html + '<div id="wrapper">'
-        html = html + template.render('templates/form_start.html', {})
+        html = html + template.render('templates/form_start.html', {'action':'/'})
         surveys = db.GqlQuery("SELECT * FROM FrontPage WHERE name != ''")
         html = html +  "<h3>Do you want to take one of these surveys?<br></h3>"
 
@@ -73,7 +73,7 @@ class SurveyInputPage(webapp.RequestHandler):
                 #take the survey that is chosen by the user
                 if y == z:
                     html = template.render('templates/header.html', {})        
-                    html = html + template.render('templates/form_start.html', {})
+                    html = html + template.render('templates/form_start.html', {'action':'/results'})
 
                     if(survey.q1 != ''):
                         html = html + survey.q1 + "<br>"
@@ -111,18 +111,24 @@ class SurveyInputPage(webapp.RequestHandler):
                     if(survey.q3a3 != ''):
                         html = html + "<INPUT TYPE=checkbox NAME='q3a3' VALUE=" + survey.q3a3 + "> %s" %survey.q3a3 + "<br>"
 
-                    html = html + template.render('templates/form_end.html', {'sub_title': 'Submit'})
+                    html = html + template.render('templates/form_pre_end.html', {'name': 'Submit','sub_title': 'Submit'})
+                    html = html + template.render('templates/form_end.html', {'name': 'Submit', 'sub_title': 'Results'})
+
                     html = html + template.render('templates/footer.html',{'links': 'Enter <a href="/">another</a>.'})
-
                     self.response.out.write(html)
-
+                    
         #the user chose to enter a new survey
         else:
             html = template.render('templates/header.html', {})        
             html = html + template.render('templates/footer.html',{'links': 'Enter <a href="/">another</a>.'})            
             self.response.out.write(html)
 
-app = webapp.WSGIApplication([('/.*', SurveyInputPage)], debug=True)
+class ResultsPage(webapp.RequestHandler):
+    def post(self):
+        html = "<html><head><title></title></head><body>hello</body></html>"
+        self.response.out.write(html)
+
+app = webapp.WSGIApplication([('/', SurveyInputPage),('/results',ResultsPage)], debug=True)
 
 def main():
     run_wsgi_app(app)
