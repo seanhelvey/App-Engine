@@ -60,23 +60,31 @@ class SurveyInputPage(webapp.RequestHandler):
         front_page.choice = y
         front_page.which_user = users.get_current_user()
         front_page.put()
-        
-        surveys = db.GqlQuery("SELECT * FROM FrontPage WHERE name != ''")        
-        html = template.render('templates/header.html', {})
-        
-        for survey in surveys:
-            z = survey.name
-            z = z.replace(" ","_")
-            if y == z:
-                print survey.name
-                print survey.q1
-                print survey.q1a1
-                print survey.q1a2
-                print survey.q1a3
 
-        html = html + template.render('templates/footer.html',
-                                      {'links': 'Enter <a href="/">another</a>.'})
-        self.response.out.write(html)
+        #if the user chose a survey to take
+        if y != '':   
+
+            response_page = surveyDB.ResponsePage()
+            surveys = db.GqlQuery("SELECT * FROM FrontPage WHERE name != ''")
+
+            for survey in surveys:
+                z = survey.name
+                z = z.replace(" ","_")
+                if y == z:
+                    html = template.render('templates/header.html', {})        
+                    html = html + template.render('templates/form_start.html', {})
+                    html = html + survey.q1 + "<br>"
+                    html = html + "<INPUT TYPE=RADIO NAME='q1a1' VALUE=" + survey.q1a1 + "> %s" %survey.q1a1 + "<br>"
+                    html = html + "<INPUT TYPE=RADIO NAME='q1a1' VALUE=" + survey.q1a2 + "> %s" %survey.q1a2 + "<br>"
+                    html = html + "<INPUT TYPE=RADIO NAME='q1a1' VALUE=" + survey.q1a3 + "> %s" %survey.q1a3 + "<br>"
+                    html = html + template.render('templates/form_end.html', {'sub_title': 'Submit'})
+                    html = html + template.render('templates/footer.html',{'links': 'Enter <a href="/">another</a>.'})
+                    self.response.out.write(html)
+
+        else:
+            html = template.render('templates/header.html', {})        
+            html = html + template.render('templates/footer.html',{'links': 'Enter <a href="/">another</a>.'})            
+            self.response.out.write(html)
 
 app = webapp.WSGIApplication([('/.*', SurveyInputPage)], debug=True)
 
