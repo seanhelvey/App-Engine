@@ -73,7 +73,8 @@ class SurveyInputPage(webapp.RequestHandler):
                 #take the survey that is chosen by the user
                 if y == z:
                     html = template.render('templates/header.html', {})        
-                    html = html + template.render('templates/form_start.html', {'action':'/results'})
+                    #html = html + template.render('templates/form_start.html', {'action':'/results'})
+                    html = html + template.render('templates/form_start.html', {})
 
                     if(survey.q1 != ''):
                         html = html + survey.q1 + "<br>"
@@ -114,17 +115,17 @@ class SurveyInputPage(webapp.RequestHandler):
                     html = html + template.render('templates/form_pre_end.html', {'name': 'Submit','sub_title': 'Submit'})
                     html = html + template.render('templates/form_end.html', {'name': 'Submit', 'sub_title': 'Results'})
 
-                    html = html + template.render('templates/footer.html',{'links': 'Enter <a href="/">another</a>.'})
+                    html = html + template.render('templates/footer.html',{'links': 'Enter <a href="/">another</a>'})
                     self.response.out.write(html)
                     
         #the user chose to enter a new survey
         else:
             html = template.render('templates/header.html', {})        
-            html = html + template.render('templates/footer.html',{'links': 'Enter <a href="/">another</a>.'})            
+            html = html + template.render('templates/footer.html',{'links': 'Enter <a href="/results">results</a>.'})            
             self.response.out.write(html)
 
 class ResultsPage(webapp.RequestHandler):
-    def post(self):
+    def get(self):
         html = "<html><head><title></title></head><body>hello</body></html>"
         self.response.out.write(html)
 
