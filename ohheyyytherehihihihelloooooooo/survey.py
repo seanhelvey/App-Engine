@@ -143,49 +143,59 @@ class ResultsPage(webapp.RequestHandler):
         for survey in surveys:
             for response in responses:
                 if survey.q1a1 == response.q1a1 and survey.q1a1 != '' and response.q1a1 != '' :
-                    html = html + response.q1a1
                     q1a1 = q1a1 + 1
-                    html = html + " " + str(q1a1) + "<br>"
 
                 if survey.q1a2 == response.q1a2 and survey.q1a2 != '' and response.q1a2 != '' :
-                    html = html + response.q1a2
                     q1a2 = q1a2 + 1
-                    html = html + " " + str(q1a2) + "<br>"
 
                 if survey.q1a3 == response.q1a3 and survey.q1a3 != '' and response.q1a3 != '' :
-                    html = html + response.q1a3
                     q1a3 = q1a3 + 1
-                    html = html + " " + str(q1a3) + "<br>"
 
                 if survey.q2a1 == response.q2a1 and survey.q2a1 != '' and response.q2a1 != '' :
-                    html = html + response.q2a1
                     q2a1 = q2a1 + 1
-                    html = html + " " + str(q2a1) + "<br>"
 
                 if survey.q2a2 == response.q2a2 and survey.q2a2 != '' and response.q2a2 != '' :
-                    html = html + response.q2a2
                     q2a2 = q2a2 + 1
-                    html = html + " " + str(q2a2) + "<br>"
 
                 if survey.q2a3 == response.q2a3 and survey.q2a3 != '' and response.q2a3 != '' :
-                    html = html + response.q2a3
                     q2a3 = q2a3 + 1
-                    html = html + " " + str(q2a3) + "<br>"
 
                 if survey.q3a1 == response.q3a1 and survey.q3a1 != '' and response.q3a1 != '' :
-                    html = html + response.q3a1
                     q3a1 = q3a1 + 1
-                    html = html + " " + str(q3a1) + "<br>"
 
                 if survey.q3a2 == response.q3a2 and survey.q3a2 != '' and response.q3a2 != '' :
-                    html = html + response.q3a2
                     q3a2 = q3a2 + 1
-                    html = html + " " + str(q3a2) + "<br>"
 
                 if survey.q3a3 == response.q3a3 and survey.q3a3 != '' and response.q3a3 != '' :
-                    html = html + response.q3a3
                     q3a3 = q3a3 + 1
-                    html = html + " " + str(q3a3) + "<br>"
+
+        for survey in surveys:
+            if (survey.q1a1 != ''):
+                html = html + survey.q1a1 + " " + str(q1a1) + "<br>"
+
+            if (survey.q1a2 != ''):
+                html = html + survey.q1a2 + " " + str(q1a2) + "<br>"
+
+            if (survey.q1a3 != ''):
+                html = html + survey.q1a3 + " " + str(q1a3) + "<br>"
+
+            if (survey.q2a1 != ''):
+                html = html + survey.q2a1 + " " + str(q2a1) + "<br>"
+
+            if (survey.q2a2 != ''):
+                html = html + survey.q2a2 + " " + str(q2a2) + "<br>"
+
+            if (survey.q2a3 != ''):
+                html = html + survey.q2a3 + " " + str(q2a3) + "<br>"
+
+            if (survey.q3a1 != ''):
+                html = html + survey.q3a1 + " " + str(q3a1) + "<br>"
+
+            if (survey.q3a2 != ''):
+                html = html + survey.q3a2 + " " + str(q3a2) + "<br>"
+
+            if (survey.q3a3 != ''):
+                html = html + survey.q3a3 + " " + str(q3a3) + "<br>"
 
         html = html + "</body></html>"
         self.response.out.write(html)
