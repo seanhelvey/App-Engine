@@ -80,36 +80,45 @@ class SurveyInputPage(webapp.RequestHandler):
                         html = html + survey.q1 + "<br>"
                     
                     if(survey.q1a1 != ''):
+                        survey.q1a1 = survey.q1a1.replace(" ","_")
                         html = html + "<INPUT TYPE=checkbox NAME='q1a1' VALUE=" + survey.q1a1 + "> %s" %survey.q1a1 + "<br>"
 
                     if(survey.q1a2 != ''):
+                        survey.q1a2 = survey.q1a2.replace(" ","_")
                         html = html + "<INPUT TYPE=checkbox NAME='q1a2' VALUE=" + survey.q1a2 + "> %s" %survey.q1a2 + "<br>"
                 
                     if(survey.q1a3 != ''):
+                        survey.q1a3 = survey.q1a3.replace(" ","_")
                         html = html + "<INPUT TYPE=checkbox NAME='q1a3' VALUE=" + survey.q1a3 + "> %s" %survey.q1a3 + "<br>"
 
                     if(survey.q2 != ''):
                         html = html + survey.q2 + "<br>"
 
                     if(survey.q2a1 != ''):
+                        survey.q2a1 = survey.q2a1.replace(" ","_")
                         html = html + "<INPUT TYPE=checkbox NAME='q2a1' VALUE=" + survey.q2a1 + "> %s" %survey.q2a1 + "<br>"
                     
                     if(survey.q2a2 != ''):                        
+                        survey.q2a2 = survey.q2a2.replace(" ","_")
                         html = html + "<INPUT TYPE=checkbox NAME='q2a2' VALUE=" + survey.q2a2 + "> %s" %survey.q2a2 + "<br>"
 
                     if(survey.q2a3 != ''):
+                        survey.q2a3 = survey.q2a3.replace(" ","_")
                         html = html + "<INPUT TYPE=checkbox NAME='q2a3' VALUE=" + survey.q2a3 + "> %s" %survey.q2a3 + "<br>"
 
                     if(survey.q3 != ''):
                         html = html + survey.q3 + "<br>"
 
                     if(survey.q3a1 != ''):
+                        survey.q3a1 = survey.q3a1.replace(" ","_")
                         html = html + "<INPUT TYPE=checkbox NAME='q3a1' VALUE=" + survey.q3a1 + "> %s" %survey.q3a1 + "<br>"
 
                     if(survey.q3a2 != ''):
+                        survey.q3a2 = survey.q3a2.replace(" ","_")
                         html = html + "<INPUT TYPE=checkbox NAME='q3a2' VALUE=" + survey.q3a2 + "> %s" %survey.q3a2 + "<br>"
 
                     if(survey.q3a3 != ''):
+                        survey.q3a3 = survey.q3a3.replace(" ","_")
                         html = html + "<INPUT TYPE=checkbox NAME='q3a3' VALUE=" + survey.q3a3 + "> %s" %survey.q3a3 + "<br>"
 
                     html = html + template.render('templates/form_pre_end.html', {'name': 'Submit','sub_title': 'Submit'})
@@ -142,30 +151,48 @@ class ResultsPage(webapp.RequestHandler):
 
         for survey in surveys:
             for response in responses:
+                survey.q1a1 = survey.q1a1.replace(" ","_")
+                response.q1a1 = response.q1a1.replace(" ","_")
                 if survey.q1a1 == response.q1a1 and survey.q1a1 != '' and response.q1a1 != '' :
                     q1a1 = q1a1 + 1
 
+                survey.q1a2 = survey.q1a2.replace(" ","_")
+                response.q1a2 = response.q1a2.replace(" ","_")
                 if survey.q1a2 == response.q1a2 and survey.q1a2 != '' and response.q1a2 != '' :
                     q1a2 = q1a2 + 1
 
+                survey.q1a3 = survey.q1a3.replace(" ","_")
+                response.q1a3 = response.q1a3.replace(" ","_")
                 if survey.q1a3 == response.q1a3 and survey.q1a3 != '' and response.q1a3 != '' :
                     q1a3 = q1a3 + 1
 
+                survey.q2a1 = survey.q2a1.replace(" ","_")
+                response.q2a1 = response.q2a1.replace(" ","_")
                 if survey.q2a1 == response.q2a1 and survey.q2a1 != '' and response.q2a1 != '' :
                     q2a1 = q2a1 + 1
 
+                survey.q2a2 = survey.q2a2.replace(" ","_")
+                response.q2a2 = response.q2a2.replace(" ","_")
                 if survey.q2a2 == response.q2a2 and survey.q2a2 != '' and response.q2a2 != '' :
                     q2a2 = q2a2 + 1
 
+                survey.q2a3 = survey.q2a3.replace(" ","_")
+                response.q2a3 = response.q2a3.replace(" ","_")
                 if survey.q2a3 == response.q2a3 and survey.q2a3 != '' and response.q2a3 != '' :
                     q2a3 = q2a3 + 1
 
+                survey.q3a1 = survey.q3a1.replace(" ","_")
+                response.q3a1 = response.q3a1.replace(" ","_")
                 if survey.q3a1 == response.q3a1 and survey.q3a1 != '' and response.q3a1 != '' :
                     q3a1 = q3a1 + 1
 
+                survey.q3a2 = survey.q3a2.replace(" ","_")
+                response.q3a2 = response.q3a2.replace(" ","_")
                 if survey.q3a2 == response.q3a2 and survey.q3a2 != '' and response.q3a2 != '' :
                     q3a2 = q3a2 + 1
 
+                survey.q3a3 = survey.q3a3.replace(" ","_")
+                response.q3a3 = response.q3a3.replace(" ","_")
                 if survey.q3a3 == response.q3a3 and survey.q3a3 != '' and response.q3a3 != '' :
                     q3a3 = q3a3 + 1
 
