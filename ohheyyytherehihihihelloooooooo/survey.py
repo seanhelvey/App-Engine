@@ -13,7 +13,8 @@ cgitb.enable()
 class SurveyForm(djangoforms.ModelForm):                                     
     class Meta:                                                                
         model = surveyDB.FrontPage
-        exclude = ['choice','which_user','submit','results']
+        exclude = ['choice','which_user','submit','results', 'q1a1X', 'q1a2X', 'q1a3X' \
+                  , 'q2a1X', 'q2a2X', 'q2a3X', 'q3a1X', 'q3a2X', 'q3a3X']
 
 class SurveyInputPage(webapp.RequestHandler):
     def get(self):
@@ -133,6 +134,21 @@ class SurveyInputPage(webapp.RequestHandler):
             html = html + template.render('templates/footer.html',{'links': 'Enter <a href="/results">results</a>.'})            
             self.response.out.write(html)
 
+
+class Counter(object):
+    def __init__(self, name=None):
+        self.name = name
+        self.q1a1 = 0
+        self.q1a2 = 0
+        self.q1a3 = 0
+        self.q2a1 = 0
+        self.q2a2 = 0
+        self.q2a3 = 0
+        self.q3a1 = 0
+        self.q3a2 = 0
+        self.q3a3 = 0
+
+ 
 class ResultsPage(webapp.RequestHandler):
     def get(self):
         surveys = db.GqlQuery("SELECT * FROM FrontPage WHERE name != ''")        
@@ -141,64 +157,78 @@ class ResultsPage(webapp.RequestHandler):
         html = template.render('templates/header.html', {})
         html = html + "<body>"
 
-        q1a1 = 0
-        q1a2 = 0
-        q1a3 = 0
-        q2a1 = 0
-        q2a2 = 0
-        q2a3 = 0
-        q3a1 = 0
-        q3a2 = 0
-        q3a3 = 0
+        counterList = []
 
         for survey in surveys:
+
+            counterList.append(Counter(survey.name))
+
             for response in responses:
                 survey.q1a1 = survey.q1a1.replace(" ","_")
                 response.q1a1 = response.q1a1.replace(" ","_")
                 if survey.q1a1 == response.q1a1 and survey.q1a1 != '' and response.q1a1 != '' :
-                    q1a1 = q1a1 + 1
+                    for counter in counterList:
+                        if counter.name == survey.name:
+                            counter.q1a1 = counter.q1a1 + 1
 
                 survey.q1a2 = survey.q1a2.replace(" ","_")
                 response.q1a2 = response.q1a2.replace(" ","_")
                 if survey.q1a2 == response.q1a2 and survey.q1a2 != '' and response.q1a2 != '' :
-                    q1a2 = q1a2 + 1
+                    for counter in counterList:
+                        if counter.name == survey.name:
+                            counter.q1a2 = counter.q1a2 + 1
 
                 survey.q1a3 = survey.q1a3.replace(" ","_")
                 response.q1a3 = response.q1a3.replace(" ","_")
                 if survey.q1a3 == response.q1a3 and survey.q1a3 != '' and response.q1a3 != '' :
-                    q1a3 = q1a3 + 1
+                    for counter in counterList:
+                        if counter.name == survey.name:
+                            counter.q1a3 = counter.q1a3 + 1
 
                 survey.q2a1 = survey.q2a1.replace(" ","_")
                 response.q2a1 = response.q2a1.replace(" ","_")
                 if survey.q2a1 == response.q2a1 and survey.q2a1 != '' and response.q2a1 != '' :
-                    q2a1 = q2a1 + 1
+                    for counter in counterList:
+                        if counter.name == survey.name:
+                            counter.q2a1 = counter.q2a1 + 1
 
                 survey.q2a2 = survey.q2a2.replace(" ","_")
                 response.q2a2 = response.q2a2.replace(" ","_")
                 if survey.q2a2 == response.q2a2 and survey.q2a2 != '' and response.q2a2 != '' :
-                    q2a2 = q2a2 + 1
+                    for counter in counterList:
+                        if counter.name == survey.name:
+                            counter.q2a2 = counter.q2a2 + 1
 
                 survey.q2a3 = survey.q2a3.replace(" ","_")
                 response.q2a3 = response.q2a3.replace(" ","_")
                 if survey.q2a3 == response.q2a3 and survey.q2a3 != '' and response.q2a3 != '' :
-                    q2a3 = q2a3 + 1
+                    for counter in counterList:
+                        if counter.name == survey.name:
+                            counter.q2a3 = counter.q2a3 + 1
 
                 survey.q3a1 = survey.q3a1.replace(" ","_")
                 response.q3a1 = response.q3a1.replace(" ","_")
                 if survey.q3a1 == response.q3a1 and survey.q3a1 != '' and response.q3a1 != '' :
-                    q3a1 = q3a1 + 1
+                    for counter in counterList:
+                        if counter.name == survey.name:
+                            counter.q3a1 = counter.q3a1 + 1
 
                 survey.q3a2 = survey.q3a2.replace(" ","_")
                 response.q3a2 = response.q3a2.replace(" ","_")
                 if survey.q3a2 == response.q3a2 and survey.q3a2 != '' and response.q3a2 != '' :
-                    q3a2 = q3a2 + 1
+                    for counter in counterList:
+                        if counter.name == survey.name:
+                            counter.q3a2 = counter.q3a2 + 1
 
                 survey.q3a3 = survey.q3a3.replace(" ","_")
                 response.q3a3 = response.q3a3.replace(" ","_")
                 if survey.q3a3 == response.q3a3 and survey.q3a3 != '' and response.q3a3 != '' :
-                    q3a3 = q3a3 + 1
+                    for counter in counterList:
+                        if counter.name == survey.name:
+                            counter.q3a3 = counter.q3a3 + 1
 
         for survey in surveys:
+
             if (survey.q1a1 != '') or (survey.q1a2 != '') or (survey.q1a3 != '') \
             or (survey.q2a1 != '') or (survey.q2a2 != '') or (survey.q2a3 != '') \
             or (survey.q3a1 != '') or (survey.q3a2 != '') or (survey.q3a3 != '') :
@@ -208,37 +238,58 @@ class ResultsPage(webapp.RequestHandler):
                 html = html + survey.q1 + "<br>"
 
             if (survey.q1a1 != ''):
-                html = html + survey.q1a1 + " " + str(q1a1) + "<br>"
+                for counter in counterList:
+                    if counter.name == survey.name:
+                        html = html + survey.q1a1 + " " + str(counter.q1a1) + "<br>"
 
             if (survey.q1a2 != ''):
-                html = html + survey.q1a2 + " " + str(q1a2) + "<br>"
+                for counter in counterList:
+                    if counter.name == survey.name:
+                        html = html + survey.q1a2 + " " + str(counter.q1a2) + "<br>"
 
             if (survey.q1a3 != ''):
-                html = html + survey.q1a3 + " " + str(q1a3) + "<br>"
+                for counter in counterList:
+                    if counter.name == survey.name:
+                        html = html + survey.q1a3 + " " + str(counter.q1a3) + "<br>"
 
             if (survey.q2a1 != '') or (survey.q2a2 != '') or (survey.q2a3 != ''):
                 html = html + survey.q2 + "<br>"
 
             if (survey.q2a1 != ''):
-                html = html + survey.q2a1 + " " + str(q2a1) + "<br>"
+                for counter in counterList:
+                    if counter.name == survey.name:
+                        html = html + survey.q2a1 + " " + str(counter.q2a1) + "<br>"
 
             if (survey.q2a2 != ''):
-                html = html + survey.q2a2 + " " + str(q2a2) + "<br>"
+                for counter in counterList:
+                    if counter.name == survey.name:
+                        html = html + survey.q2a2 + " " + str(counter.q2a2) + "<br>"
 
             if (survey.q2a3 != ''):
-                html = html + survey.q2a3 + " " + str(q2a3) + "<br>"
+                for counter in counterList:
+                    if counter.name == survey.name:
+                        html = html + survey.q2a3 + " " + str(counter.q2a3) + "<br>"
 
             if (survey.q3a1 != '') or (survey.q3a2 != '') or (survey.q3a3 != ''):
                 html = html + survey.q3 + "<br>"
 
             if (survey.q3a1 != ''):
-                html = html + survey.q3a1 + " " + str(q3a1) + "<br>"
+                for counter in counterList:
+                    if counter.name == survey.name:
+                        html = html + survey.q3a1 + " " + str(counter.q3a1) + "<br>"
 
             if (survey.q3a2 != ''):
-                html = html + survey.q3a2 + " " + str(q3a2) + "<br>"
+                for counter in counterList:
+                    if counter.name == survey.name:
+                        html = html + survey.q3a2 + " " + str(counter.q3a2) + "<br>"
 
             if (survey.q3a3 != ''):
-                html = html + survey.q3a3 + " " + str(q3a3) + "<br>"
+                for counter in counterList:
+                    if counter.name == survey.name:
+                        html = html + survey.q3a3 + " " + str(counter.q3a3) + "<br>"
+
+        #for counter in counterList:
+        #html = html + counter.name
 
         html = html + "</body></html>"
         self.response.out.write(html)
