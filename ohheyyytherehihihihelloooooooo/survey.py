@@ -137,7 +137,9 @@ class ResultsPage(webapp.RequestHandler):
     def get(self):
         surveys = db.GqlQuery("SELECT * FROM FrontPage WHERE name != ''")        
         responses = db.GqlQuery("SELECT * FROM FrontPage WHERE name = '' AND choice = ''")
-        html = "<html><head><title></title></head><body>"
+        #html = "<html><head><title></title></head>
+        html = template.render('templates/header.html', {})
+        html = html + "<body>"
 
         q1a1 = 0
         q1a2 = 0
@@ -197,6 +199,14 @@ class ResultsPage(webapp.RequestHandler):
                     q3a3 = q3a3 + 1
 
         for survey in surveys:
+            if (survey.q1a1 != '') or (survey.q1a2 != '') or (survey.q1a3 != '') \
+            or (survey.q2a1 != '') or (survey.q2a2 != '') or (survey.q2a3 != '') \
+            or (survey.q3a1 != '') or (survey.q3a2 != '') or (survey.q3a3 != '') :
+                html = html + survey.name + "<br>"
+
+            if (survey.q1a1 != '') or (survey.q1a2 != '') or (survey.q1a3 != ''):
+                html = html + survey.q1 + "<br>"
+
             if (survey.q1a1 != ''):
                 html = html + survey.q1a1 + " " + str(q1a1) + "<br>"
 
@@ -206,6 +216,9 @@ class ResultsPage(webapp.RequestHandler):
             if (survey.q1a3 != ''):
                 html = html + survey.q1a3 + " " + str(q1a3) + "<br>"
 
+            if (survey.q2a1 != '') or (survey.q2a2 != '') or (survey.q2a3 != ''):
+                html = html + survey.q2 + "<br>"
+
             if (survey.q2a1 != ''):
                 html = html + survey.q2a1 + " " + str(q2a1) + "<br>"
 
@@ -214,6 +227,9 @@ class ResultsPage(webapp.RequestHandler):
 
             if (survey.q2a3 != ''):
                 html = html + survey.q2a3 + " " + str(q2a3) + "<br>"
+
+            if (survey.q3a1 != '') or (survey.q3a2 != '') or (survey.q3a3 != ''):
+                html = html + survey.q3 + "<br>"
 
             if (survey.q3a1 != ''):
                 html = html + survey.q3a1 + " " + str(q3a1) + "<br>"

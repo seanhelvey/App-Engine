@@ -1,9 +1,13 @@
 body {
-     text-align:center
+     /*text-align:center;*/
+     background-image:url('http://3.bp.blogspot.com/-ttEXP_ZUyrs/TVWDzzUHunI/AAAAAAAABpo/mygYeRjr-0U/s1600/Survey.jpg');
+     background-size: 25%;
+     background-repeat: no-repeat;
+     background-position: 30% 30%;
+     
 }
 
 #wrapper {
-        margin: 0 auto;
-        width: 800px; /* Replace the xxxx with the the width of your site (eg 800px)*/
-        text-align:left;
+
+        text-align:left;*/
 }

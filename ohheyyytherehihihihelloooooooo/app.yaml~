@@ -12,6 +12,6 @@ handlers:
   upload: favicon\.ico
 
 - url: .*
-  script: hfwwg.py
+  script: survey.py
   login: required
 
