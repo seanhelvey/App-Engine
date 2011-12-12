@@ -67,7 +67,11 @@ class SurveyInputPage(webapp.RequestHandler):
 
             #get all of the surveys in the datastore
             surveys = db.GqlQuery("SELECT * FROM FrontPage WHERE name != ''")
+        
             for survey in surveys:
+                currentUser = users.get_current_user()
+                userAnswered = db.GqlQuery("SELECT * FROM FrontPage WHERE which_user != ''")
+
                 z = survey.name
                 z = z.replace(" ","_")
 
@@ -76,51 +80,139 @@ class SurveyInputPage(webapp.RequestHandler):
                     html = template.render('templates/header.html', {})        
                     #html = html + template.render('templates/form_start.html', {'action':'/results'})
                     html = html + template.render('templates/form_start.html', {})
-
+                    
+                    #for answer in userAnswered:
+                    #    html = html + str(answer.which_user) + " "
+                    #    html = html + str(currentUser) + "<br>"
+                        
+                    #if str(answer.which_user) == str(currentUser):
+                    #    html = html + "partyTime"
+                    
                     if(survey.q1 != ''):
                         html = html + survey.q1 + "<br>"
                     
                     if(survey.q1a1 != ''):
                         survey.q1a1 = survey.q1a1.replace(" ","_")
-                        html = html + "<INPUT TYPE=checkbox NAME='q1a1' VALUE=" + survey.q1a1 + "> %s" %survey.q1a1 + "<br>"
+
+                        #disable
+                        disabled = 0
+                        for answer in userAnswered:
+                            if(str(answer.which_user) == str(currentUser) and answer.q1a1 == survey.q1a1 and answer.name == '' and answer.choice == '' ):
+                                html = html + "<INPUT TYPE=checkbox NAME='q1a1' VALUE=" + survey.q1a1 + " DISABLED> %s" %survey.q1a1 + "<br>"
+                                disabled = 1
+                        #enable
+                        if disabled == 0:
+                            html = html + "<INPUT TYPE=checkbox NAME='q1a1' VALUE=" + survey.q1a1 + "> %s" %survey.q1a1 + "<br>"   
 
                     if(survey.q1a2 != ''):
                         survey.q1a2 = survey.q1a2.replace(" ","_")
-                        html = html + "<INPUT TYPE=checkbox NAME='q1a2' VALUE=" + survey.q1a2 + "> %s" %survey.q1a2 + "<br>"
+
+                        #disable
+                        disabled = 0
+                        for answer in userAnswered:
+                            if(str(answer.which_user) == str(currentUser) and answer.q1a2 == survey.q1a2 and answer.name == '' and answer.choice == '' ):
+                                html = html + "<INPUT TYPE=checkbox NAME='q1a2' VALUE=" + survey.q1a2 + " DISABLED> %s" %survey.q1a2 + "<br>"
+                                disabled = 1
+                        #enable
+                        if disabled == 0:
+                            html = html + "<INPUT TYPE=checkbox NAME='q1a2' VALUE=" + survey.q1a2 + "> %s" %survey.q1a2 + "<br>"   
                 
                     if(survey.q1a3 != ''):
                         survey.q1a3 = survey.q1a3.replace(" ","_")
-                        html = html + "<INPUT TYPE=checkbox NAME='q1a3' VALUE=" + survey.q1a3 + "> %s" %survey.q1a3 + "<br>"
+
+                        #disable
+                        disabled = 0
+                        for answer in userAnswered:
+                            if(str(answer.which_user) == str(currentUser) and answer.q1a3 == survey.q1a3 and answer.name == '' and answer.choice == '' ):
+                                html = html + "<INPUT TYPE=checkbox NAME='q1a3' VALUE=" + survey.q1a3 + " DISABLED> %s" %survey.q1a3 + "<br>"
+                                disabled = 1
+                        #enable
+                        if disabled == 0:
+                            html = html + "<INPUT TYPE=checkbox NAME='q1a3' VALUE=" + survey.q1a3 + "> %s" %survey.q1a3 + "<br>"   
 
                     if(survey.q2 != ''):
                         html = html + survey.q2 + "<br>"
 
                     if(survey.q2a1 != ''):
                         survey.q2a1 = survey.q2a1.replace(" ","_")
-                        html = html + "<INPUT TYPE=checkbox NAME='q2a1' VALUE=" + survey.q2a1 + "> %s" %survey.q2a1 + "<br>"
+
+                        #disable
+                        disabled = 0
+                        for answer in userAnswered:
+                            if(str(answer.which_user) == str(currentUser) and answer.q2a1 == survey.q2a1 and answer.name == '' and answer.choice == '' ):
+                                html = html + "<INPUT TYPE=checkbox NAME='q2a1' VALUE=" + survey.q2a1 + " DISABLED> %s" %survey.q2a1 + "<br>"
+                                disabled = 1
+                        #enable
+                        if disabled == 0:
+                            html = html + "<INPUT TYPE=checkbox NAME='q2a1' VALUE=" + survey.q2a1 + "> %s" %survey.q2a1 + "<br>"   
                     
                     if(survey.q2a2 != ''):                        
                         survey.q2a2 = survey.q2a2.replace(" ","_")
-                        html = html + "<INPUT TYPE=checkbox NAME='q2a2' VALUE=" + survey.q2a2 + "> %s" %survey.q2a2 + "<br>"
+
+                        #disable
+                        disabled = 0
+                        for answer in userAnswered:
+                            if(str(answer.which_user) == str(currentUser) and answer.q2a2 == survey.q2a2 and answer.name == '' and answer.choice == '' ):
+                                html = html + "<INPUT TYPE=checkbox NAME='q2a2' VALUE=" + survey.q2a2 + " DISABLED> %s" %survey.q2a2 + "<br>"
+                                disabled = 1
+                        #enable
+                        if disabled == 0:
+                            html = html + "<INPUT TYPE=checkbox NAME='q2a2' VALUE=" + survey.q2a2 + "> %s" %survey.q2a2 + "<br>"   
 
                     if(survey.q2a3 != ''):
                         survey.q2a3 = survey.q2a3.replace(" ","_")
-                        html = html + "<INPUT TYPE=checkbox NAME='q2a3' VALUE=" + survey.q2a3 + "> %s" %survey.q2a3 + "<br>"
+
+                        #disable
+                        disabled = 0
+                        for answer in userAnswered:
+                            if(str(answer.which_user) == str(currentUser) and answer.q2a3 == survey.q2a3 and answer.name == '' and answer.choice == '' ):
+                                html = html + "<INPUT TYPE=checkbox NAME='q2a3' VALUE=" + survey.q2a3 + " DISABLED> %s" %survey.q2a3 + "<br>"
+                                disabled = 1
+                        #enable
+                        if disabled == 0:
+                            html = html + "<INPUT TYPE=checkbox NAME='q2a3' VALUE=" + survey.q2a3 + "> %s" %survey.q2a3 + "<br>"   
 
                     if(survey.q3 != ''):
                         html = html + survey.q3 + "<br>"
 
                     if(survey.q3a1 != ''):
                         survey.q3a1 = survey.q3a1.replace(" ","_")
-                        html = html + "<INPUT TYPE=checkbox NAME='q3a1' VALUE=" + survey.q3a1 + "> %s" %survey.q3a1 + "<br>"
+
+                        #disable
+                        disabled = 0
+                        for answer in userAnswered:
+                            if(str(answer.which_user) == str(currentUser) and answer.q3a1 == survey.q3a1 and answer.name == '' and answer.choice == '' ):
+                                html = html + "<INPUT TYPE=checkbox NAME='q3a1' VALUE=" + survey.q3a1 + " DISABLED> %s" %survey.q3a1 + "<br>"
+                                disabled = 1
+                        #enable
+                        if disabled == 0:
+                            html = html + "<INPUT TYPE=checkbox NAME='q3a1' VALUE=" + survey.q3a1 + "> %s" %survey.q3a1 + "<br>"   
 
                     if(survey.q3a2 != ''):
                         survey.q3a2 = survey.q3a2.replace(" ","_")
-                        html = html + "<INPUT TYPE=checkbox NAME='q3a2' VALUE=" + survey.q3a2 + "> %s" %survey.q3a2 + "<br>"
+
+                        #disable
+                        disabled = 0
+                        for answer in userAnswered:
+                            if(str(answer.which_user) == str(currentUser) and answer.q3a2 == survey.q3a2 and answer.name == '' and answer.choice == '' ):
+                                html = html + "<INPUT TYPE=checkbox NAME='q3a2' VALUE=" + survey.q3a2 + " DISABLED> %s" %survey.q3a2 + "<br>"
+                                disabled = 1
+                        #enable
+                        if disabled == 0:
+                            html = html + "<INPUT TYPE=checkbox NAME='q3a2' VALUE=" + survey.q3a2 + "> %s" %survey.q3a2 + "<br>"   
 
                     if(survey.q3a3 != ''):
                         survey.q3a3 = survey.q3a3.replace(" ","_")
-                        html = html + "<INPUT TYPE=checkbox NAME='q3a3' VALUE=" + survey.q3a3 + "> %s" %survey.q3a3 + "<br>"
+
+                        #disable
+                        disabled = 0
+                        for answer in userAnswered:
+                            if(str(answer.which_user) == str(currentUser) and answer.q3a3 == survey.q3a3 and answer.name == '' and answer.choice == '' ):
+                                html = html + "<INPUT TYPE=checkbox NAME='q3a3' VALUE=" + survey.q3a3 + " DISABLED> %s" %survey.q3a3 + "<br>"
+                                disabled = 1
+                        #enable
+                        if disabled == 0:
+                            html = html + "<INPUT TYPE=checkbox NAME='q3a3' VALUE=" + survey.q3a3 + "> %s" %survey.q3a3 + "<br>"   
 
                     html = html + template.render('templates/form_pre_end.html', {'name': 'Submit','sub_title': 'Submit'})
                     html = html + template.render('templates/form_end.html', {'name': 'Submit', 'sub_title': 'Results'})
