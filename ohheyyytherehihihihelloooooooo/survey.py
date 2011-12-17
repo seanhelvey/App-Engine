@@ -340,10 +340,13 @@ class ResultsPage(webapp.RequestHandler):
       function drawChart() {
 
       // Create the data table.
-      var data = new google.visualization.DataTable();
-      data.addColumn('string', 'Answer');
-      data.addColumn('number', 'Number');
-      data.addRows([
+      num = 1;
+      //var data = new google.visualization.DataTable();
+      eval("var data" + num + "= new google.visualization.DataTable();");
+      
+      data1.addColumn('string', 'Answer');
+      data1.addColumn('number', 'Number');
+      data1.addRows([
         ['"""
         html = html + "Carrots"
         html = html + "', 3],['"
@@ -355,20 +358,24 @@ class ResultsPage(webapp.RequestHandler):
       ]);
 
       // Set chart options
-      var options = {'title':'Results',
-                     'width':400,
-                     'height':300};
+      //var options1 = {'title':'Results1',
+      //               'width':400,
+      //               'height':300};
+      eval("var options" + num + "= {'title':'Results1','width':400,'height':300};");
 
       // Instantiate and draw our chart, passing in some options.
-      var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-      chart.draw(data, options);
+      //var chart1 = new google.visualization.PieChart(document.getElementById('chart_div1'));
+      eval("var chart" + num + "= new google.visualization.PieChart(document.getElementById('chart_div1'));");
+      chart1.draw(data1, options1);
 
       // Create the data table.
-      var data2 = new google.visualization.DataTable();
-      data2.addColumn('string', 'Answer');
-      data2.addColumn('number', 'Number');
-      data2.addRows([
-        ['"""
+      num = 2;
+      //var data2 = new google.visualization.DataTable();
+      eval("var data" + num + "= new google.visualization.DataTable();");
+      eval("data" + num + ".addColumn('string', 'Answer');");
+      eval("data" + num + ".addColumn('number', 'Number');");
+      eval("variable = data" + num + ";");
+      variable.addRows([['"""
         html = html + "Carrots"
         html = html + "', 3],['"
         html = html + "Candy"
@@ -379,18 +386,34 @@ class ResultsPage(webapp.RequestHandler):
       ]);
 
       // Set chart options
-      var options2 = {'title':'Results',
-                     'width':400,
-                     'height':300};
+      //var options2 = {'title':'Results2',
+      //               'width':400,
+      //               'height':300};
+      eval("var options" + num + "= {'title':'Results2','width':400,'height':300};");
 
       // Instantiate and draw our chart, passing in some options.
-      var chart2 = new google.visualization.PieChart(document.getElementById('chart_div2'));
-      chart2.draw(data2, options2);
+      //var chart2 = new google.visualization.PieChart(document.getElementById('chart_div2'));
+      eval("var chart" + num + "= new google.visualization.PieChart(document.getElementById('chart_div2'));");
+      eval("chart" + num + ".draw(data2, options2);");
     }
     </script>"""        
 
         for survey in surveys:
  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             if (survey.q1a1 != '') or (survey.q1a2 != '') or (survey.q1a3 != '') \
             or (survey.q2a1 != '') or (survey.q2a2 != '') or (survey.q2a3 != '') \
             or (survey.q3a1 != '') or (survey.q3a2 != '') or (survey.q3a3 != '') :
@@ -466,7 +489,7 @@ class ResultsPage(webapp.RequestHandler):
         #for counter in counterList:
         #html = html + counter.name
 
-        html = html + '</head><body><div id="chart_div"></div><div id="chart_div2"></div></body></html>'
+        html = html + '</head><body><div id="chart_div1"></div><div id="chart_div2"></div></body></html>'
 
 
         self.response.out.write(html)
