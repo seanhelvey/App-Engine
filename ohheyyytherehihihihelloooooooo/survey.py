@@ -322,7 +322,7 @@ class ResultsPage(webapp.RequestHandler):
       
         html = """
       <html><head><title></title>
-      <link type="text/css" rel="stylesheet" href="/static/survey.css" />
+      <link type="text/css" rel="stylesheet" href="/static/surveyMod.css" />
 
     <!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -447,9 +447,9 @@ class ResultsPage(webapp.RequestHandler):
             html = html + """
             
       // Set chart options
-      eval("var optionsA" + num + "= {'title':'Results" + num + "','width':400,'height':300};");
-      eval("var optionsB" + num + "= {'title':'Results" + num + "','width':400,'height':300};");
-      eval("var optionsC" + num + "= {'title':'Results" + num + "','width':400,'height':300};");
+      eval("var optionsA" + num + "= {'title':'""" + survey.q1 + """','width':400,'height':300};");
+      eval("var optionsB" + num + "= {'title':'""" + survey.q2 + """','width':400,'height':300};");
+      eval("var optionsC" + num + "= {'title':'""" + survey.q3 + """','width':400,'height':300};");
 
       // Instantiate and draw our chart, passing in some options.
       eval("var chartA" + num + "= new google.visualization.PieChart(document.getElementById('chart_divA" + num + "'));");
@@ -468,6 +468,7 @@ class ResultsPage(webapp.RequestHandler):
 
         number = 1
         for survey in surveys:
+            html = html + survey.name + "<br>"
             html = html + '<div id="chart_divA' + str(number) + '"></div>'
             html = html + '<div id="chart_divB' + str(number) + '"></div>'
             html = html + '<div id="chart_divC' + str(number) + '"></div>'
