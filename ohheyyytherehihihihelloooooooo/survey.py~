@@ -69,6 +69,7 @@ class SurveyInputPage(webapp.RequestHandler):
             surveys = db.GqlQuery("SELECT * FROM FrontPage WHERE name != ''")
         
             for survey in surveys:
+		if survey.name.replace(" ","_") == y:
                 currentUser = users.get_current_user()
                 userAnswered = db.GqlQuery("SELECT * FROM FrontPage WHERE which_user != ''")
 
@@ -247,12 +248,6 @@ class ResultsPage(webapp.RequestHandler):
         responses = db.GqlQuery("SELECT * FROM FrontPage WHERE name = '' AND choice = ''")
         #html = template.render('templates/header.html', {})
 
-        
-
-        html = html + "<body>"
-
-        html = html + '<div id="chart_div"></div>'
-
         counterList = []
 
         for survey in surveys:
@@ -323,71 +318,137 @@ class ResultsPage(webapp.RequestHandler):
                         if counter.name == survey.name:
                             counter.q3a3 = counter.q3a3 + 1
 
+        #==============================================
+        #Begin javascript pie chart
+      
+        html = """
+      <html><head><title></title>
+      <link type="text/css" rel="stylesheet" href="/static/survey.css" />
+
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the piechart package.
+      google.load('visualization', '1.0', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+      num = 1;"""
+
         for survey in surveys:
+
+            html = html + """// Create the data table.
+
+      eval("var data" + num + "= new google.visualization.DataTable();");
+      eval("data" + num + ".addColumn('string', 'Answer');");
+      eval("data" + num + ".addColumn('number', 'Number');");
+      eval("variable = data" + num + ";");
+      variable.addRows([['onions',7]]);
+      variable.addRows([['potatoes',11]]);
+      html = html + """
  
             if (survey.q1a1 != '') or (survey.q1a2 != '') or (survey.q1a3 != '') \
             or (survey.q2a1 != '') or (survey.q2a2 != '') or (survey.q2a3 != '') \
             or (survey.q3a1 != '') or (survey.q3a2 != '') or (survey.q3a3 != '') :
-                html = html + survey.name + "<br>"
+                #html = html + survey.name + "<br>"
+                x=2
 
             if (survey.q1a1 != '') or (survey.q1a2 != '') or (survey.q1a3 != ''):
-                html = html + survey.q1 + "<br>"
+                #html = html + survey.q1 + "<br>"
+                x=2
 
             if (survey.q1a1 != ''):
                 for counter in counterList:
                     if counter.name == survey.name:
-                        html = html + survey.q1a1 + " " + str(counter.q1a1) + "<br>"
-
+                        #html = html + survey.q1a1 + " " + str(counter.q1a1) + "<br>"
+                        x=2
+                        
             if (survey.q1a2 != ''):
                 for counter in counterList:
                     if counter.name == survey.name:
-                        html = html + survey.q1a2 + " " + str(counter.q1a2) + "<br>"
-
+                        #html = html + survey.q1a2 + " " + str(counter.q1a2) + "<br>"
+                        x=2
+                        
             if (survey.q1a3 != ''):
                 for counter in counterList:
                     if counter.name == survey.name:
-                        html = html + survey.q1a3 + " " + str(counter.q1a3) + "<br>"
+                        #html = html + survey.q1a3 + " " + str(counter.q1a3) + "<br>"
+                        x=2
 
             if (survey.q2a1 != '') or (survey.q2a2 != '') or (survey.q2a3 != ''):
-                html = html + survey.q2 + "<br>"
+                #html = html + survey.q2 + "<br>"
+                x=2
 
             if (survey.q2a1 != ''):
                 for counter in counterList:
                     if counter.name == survey.name:
-                        html = html + survey.q2a1 + " " + str(counter.q2a1) + "<br>"
+                        #html = html + survey.q2a1 + " " + str(counter.q2a1) + "<br>"
+                        x=2
 
             if (survey.q2a2 != ''):
                 for counter in counterList:
                     if counter.name == survey.name:
-                        html = html + survey.q2a2 + " " + str(counter.q2a2) + "<br>"
+                        #html = html + survey.q2a2 + " " + str(counter.q2a2) + "<br>"
+                        x=2
 
             if (survey.q2a3 != ''):
                 for counter in counterList:
                     if counter.name == survey.name:
-                        html = html + survey.q2a3 + " " + str(counter.q2a3) + "<br>"
+                        #html = html + survey.q2a3 + " " + str(counter.q2a3) + "<br>"
+                        x=2
 
             if (survey.q3a1 != '') or (survey.q3a2 != '') or (survey.q3a3 != ''):
-                html = html + survey.q3 + "<br>"
+                #html = html + survey.q3 + "<br>"
+                x=2
 
             if (survey.q3a1 != ''):
                 for counter in counterList:
                     if counter.name == survey.name:
-                        html = html + survey.q3a1 + " " + str(counter.q3a1) + "<br>"
+                        #html = html + survey.q3a1 + " " + str(counter.q3a1) + "<br>"
+                        x=2
 
             if (survey.q3a2 != ''):
                 for counter in counterList:
                     if counter.name == survey.name:
-                        html = html + survey.q3a2 + " " + str(counter.q3a2) + "<br>"
+                        #html = html + survey.q3a2 + " " + str(counter.q3a2) + "<br>"
+                        x=2
 
             if (survey.q3a3 != ''):
                 for counter in counterList:
                     if counter.name == survey.name:
-                        html = html + survey.q3a3 + " " + str(counter.q3a3) + "<br>"
+                        #html = html + survey.q3a3 + " " + str(counter.q3a3) + "<br>"
+                        x=2
+
+            html = html + """
+            
+      // Set chart options
+      eval("var options" + num + "= {'title':'Results" + num + "','width':400,'height':300};");
+
+      // Instantiate and draw our chart, passing in some options.
+      eval("var chart" + num + "= new google.visualization.PieChart(document.getElementById('chart_div" + num + "'));");
+      eval("chart" + num + ".draw(data" + num + ", options" + num + ");");
+      num = num + 1;"""
 
         #for counter in counterList:
         #html = html + counter.name
 
-        html = html + "</body></html>"
+        #curly brace here below is end of prior javascript function
+        html = html + '}</script></head><body>'
+
+        number = 1
+        for survey in surveys:
+            html = html + '<div id="chart_div' + str(number) + '"></div>'
+            number = number + 1
+
+        html = html + '</body></html>'
+
         self.response.out.write(html)
 
 app = webapp.WSGIApplication([('/', SurveyInputPage),('/results',ResultsPage)], debug=True)

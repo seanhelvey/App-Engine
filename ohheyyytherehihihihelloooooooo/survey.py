@@ -345,42 +345,32 @@ class ResultsPage(webapp.RequestHandler):
 
             html = html + """// Create the data table.
 
-      eval("var data" + num + "= new google.visualization.DataTable();");
-      eval("data" + num + ".addColumn('string', 'Answer');");
-      eval("data" + num + ".addColumn('number', 'Number');");
-      eval("variable = data" + num + ";");
-      variable.addRows("""
+      eval("var dataA" + num + "= new google.visualization.DataTable();");
+      eval("var dataB" + num + "= new google.visualization.DataTable();");
+      eval("var dataC" + num + "= new google.visualization.DataTable();");
 
-            #start of items
-            html = html + "[['"
+      eval("dataA" + num + ".addColumn('string', 'Answer');");
+      eval("dataB" + num + ".addColumn('string', 'Answer');");
+      eval("dataC" + num + ".addColumn('string', 'Answer');");
 
-            #first item
-            html = html + "Apples"
-            html = html + "', "
-            html = html + "3"
-            html = html + "]"
+      eval("dataA" + num + ".addColumn('number', 'Number');");
+      eval("dataB" + num + ".addColumn('number', 'Number');");
+      eval("dataC" + num + ".addColumn('number', 'Number');");
 
-            #delimeter
-            html = html + ",['"
-            
-            #next item
-            html = html + "Oranges"
-            html = html + "', "
-            html = html + "1"
-            html = html + "]"
+      eval("variableA = dataA" + num + ";");
+      eval("variableB = dataB" + num + ";");
+      eval("variableC = dataC" + num + ";");
 
-            #end of items
-            html = html + ",]);"
-            
-            html = html + """
-            
-      // Set chart options
-      eval("var options" + num + "= {'title':'Results" + num + "','width':400,'height':300};");
+      variableA.addRows([['onions',7]]);
+      variableA.addRows([['potatoes',11]]);
 
-      // Instantiate and draw our chart, passing in some options.
-      eval("var chart" + num + "= new google.visualization.PieChart(document.getElementById('chart_div" + num + "'));");
-      eval("chart" + num + ".draw(data" + num + ", options" + num + ");");
-      num = num + 1;"""
+      variableB.addRows([['cherrys',7]]);
+      variableB.addRows([['bananas',11]]);
+
+      variableC.addRows([['cereal',7]]);
+      variableC.addRows([['yogurt',11]]);
+
+      html = html + """
  
             if (survey.q1a1 != '') or (survey.q1a2 != '') or (survey.q1a3 != '') \
             or (survey.q2a1 != '') or (survey.q2a2 != '') or (survey.q2a3 != '') \
@@ -454,6 +444,22 @@ class ResultsPage(webapp.RequestHandler):
                         #html = html + survey.q3a3 + " " + str(counter.q3a3) + "<br>"
                         x=2
 
+            html = html + """
+            
+      // Set chart options
+      eval("var optionsA" + num + "= {'title':'Results" + num + "','width':400,'height':300};");
+      eval("var optionsB" + num + "= {'title':'Results" + num + "','width':400,'height':300};");
+      eval("var optionsC" + num + "= {'title':'Results" + num + "','width':400,'height':300};");
+
+      // Instantiate and draw our chart, passing in some options.
+      eval("var chartA" + num + "= new google.visualization.PieChart(document.getElementById('chart_divA" + num + "'));");
+      eval("chartA" + num + ".draw(dataA" + num + ", optionsA" + num + ");");
+      eval("var chartB" + num + "= new google.visualization.PieChart(document.getElementById('chart_divB" + num + "'));");
+      eval("chartB" + num + ".draw(dataB" + num + ", optionsB" + num + ");");
+      eval("var chartC" + num + "= new google.visualization.PieChart(document.getElementById('chart_divC" + num + "'));");
+      eval("chartC" + num + ".draw(dataC" + num + ", optionsC" + num + ");");
+      num = num + 1;"""
+
         #for counter in counterList:
         #html = html + counter.name
 
@@ -462,7 +468,9 @@ class ResultsPage(webapp.RequestHandler):
 
         number = 1
         for survey in surveys:
-            html = html + '<div id="chart_div' + str(number) + '"></div>'
+            html = html + '<div id="chart_divA' + str(number) + '"></div>'
+            html = html + '<div id="chart_divB' + str(number) + '"></div>'
+            html = html + '<div id="chart_divC' + str(number) + '"></div>'
             number = number + 1
 
         html = html + '</body></html>'
