@@ -361,15 +361,6 @@ class ResultsPage(webapp.RequestHandler):
       eval("variableB = dataB" + num + ";");
       eval("variableC = dataC" + num + ";");
 
-      variableA.addRows([['onions',7]]);
-      variableA.addRows([['potatoes',11]]);
-
-      variableB.addRows([['cherrys',7]]);
-      variableB.addRows([['bananas',11]]);
-
-      variableC.addRows([['cereal',7]]);
-      variableC.addRows([['yogurt',11]]);
-
       html = html + """
  
             if (survey.q1a1 != '') or (survey.q1a2 != '') or (survey.q1a3 != '') \
@@ -386,18 +377,21 @@ class ResultsPage(webapp.RequestHandler):
                 for counter in counterList:
                     if counter.name == survey.name:
                         #html = html + survey.q1a1 + " " + str(counter.q1a1) + "<br>"
+                        html = html + "variableA.addRows([['"+ survey.q1a1 + "'," + str(counter.q1a1) + "]]);"
                         x=2
                         
             if (survey.q1a2 != ''):
                 for counter in counterList:
                     if counter.name == survey.name:
                         #html = html + survey.q1a2 + " " + str(counter.q1a2) + "<br>"
+                        html = html + "variableA.addRows([['"+ survey.q1a2 + "'," + str(counter.q1a2) + "]]);"
                         x=2
                         
             if (survey.q1a3 != ''):
                 for counter in counterList:
                     if counter.name == survey.name:
                         #html = html + survey.q1a3 + " " + str(counter.q1a3) + "<br>"
+                        html = html + "variableA.addRows([['"+ survey.q1a3 + "'," + str(counter.q1a3) + "]]);"
                         x=2
 
             if (survey.q2a1 != '') or (survey.q2a2 != '') or (survey.q2a3 != ''):
@@ -408,18 +402,21 @@ class ResultsPage(webapp.RequestHandler):
                 for counter in counterList:
                     if counter.name == survey.name:
                         #html = html + survey.q2a1 + " " + str(counter.q2a1) + "<br>"
+                        html = html + "variableB.addRows([['"+ survey.q2a1 + "'," + str(counter.q2a1) + "]]);"
                         x=2
 
             if (survey.q2a2 != ''):
                 for counter in counterList:
                     if counter.name == survey.name:
                         #html = html + survey.q2a2 + " " + str(counter.q2a2) + "<br>"
+                        html = html + "variableB.addRows([['"+ survey.q2a2 + "'," + str(counter.q2a2) + "]]);"
                         x=2
 
             if (survey.q2a3 != ''):
                 for counter in counterList:
                     if counter.name == survey.name:
                         #html = html + survey.q2a3 + " " + str(counter.q2a3) + "<br>"
+                        html = html + "variableB.addRows([['"+ survey.q2a3 + "'," + str(counter.q2a3) + "]]);"
                         x=2
 
             if (survey.q3a1 != '') or (survey.q3a2 != '') or (survey.q3a3 != ''):
@@ -430,18 +427,21 @@ class ResultsPage(webapp.RequestHandler):
                 for counter in counterList:
                     if counter.name == survey.name:
                         #html = html + survey.q3a1 + " " + str(counter.q3a1) + "<br>"
+                        html = html + "variableC.addRows([['"+ survey.q3a1 + "'," + str(counter.q3a1) + "]]);"
                         x=2
 
             if (survey.q3a2 != ''):
                 for counter in counterList:
                     if counter.name == survey.name:
                         #html = html + survey.q3a2 + " " + str(counter.q3a2) + "<br>"
+                        html = html + "variableC.addRows([['"+ survey.q3a2 + "'," + str(counter.q3a2) + "]]);"
                         x=2
 
             if (survey.q3a3 != ''):
                 for counter in counterList:
                     if counter.name == survey.name:
                         #html = html + survey.q3a3 + " " + str(counter.q3a3) + "<br>"
+                        html = html + "variableC.addRows([['"+ survey.q3a3 + "'," + str(counter.q3a3) + "]]);"
                         x=2
 
             html = html + """
