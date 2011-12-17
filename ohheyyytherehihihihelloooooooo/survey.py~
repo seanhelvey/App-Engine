@@ -245,9 +245,13 @@ class ResultsPage(webapp.RequestHandler):
     def get(self):
         surveys = db.GqlQuery("SELECT * FROM FrontPage WHERE name != ''")        
         responses = db.GqlQuery("SELECT * FROM FrontPage WHERE name = '' AND choice = ''")
-        #html = "<html><head><title></title></head>
-        html = template.render('templates/header.html', {})
+        #html = template.render('templates/header.html', {})
+
+        
+
         html = html + "<body>"
+
+        html = html + '<div id="chart_div"></div>'
 
         counterList = []
 
@@ -320,7 +324,7 @@ class ResultsPage(webapp.RequestHandler):
                             counter.q3a3 = counter.q3a3 + 1
 
         for survey in surveys:
-
+ 
             if (survey.q1a1 != '') or (survey.q1a2 != '') or (survey.q1a3 != '') \
             or (survey.q2a1 != '') or (survey.q2a2 != '') or (survey.q2a3 != '') \
             or (survey.q3a1 != '') or (survey.q3a2 != '') or (survey.q3a3 != '') :

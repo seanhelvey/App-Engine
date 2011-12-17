@@ -1,4 +1,3 @@
-#comments
 
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
@@ -246,9 +245,57 @@ class ResultsPage(webapp.RequestHandler):
     def get(self):
         surveys = db.GqlQuery("SELECT * FROM FrontPage WHERE name != ''")        
         responses = db.GqlQuery("SELECT * FROM FrontPage WHERE name = '' AND choice = ''")
-        #html = "<html><head><title></title></head>
-        html = template.render('templates/header.html', {})
+        #html = template.render('templates/header.html', {})
+        html = """
+<html>
+<head>
+<title></title>
+<link type="text/css" rel="stylesheet" href="/static/survey.css" />
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the piechart package.
+      google.load('visualization', '1.0', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+      // Create the data table.
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Topping');
+      data.addColumn('number', 'Slices');
+      data.addRows([
+        ['"""
+        html = html + "Carrots"
+        html = html + "', 3],['"
+        html = html + "Candy"
+        html = html + """', 1],
+        ['Olives', 1],
+        ['Zucchini', 1],
+        ['Pepperoni', 2]
+      ]);
+
+      // Set chart options
+      var options = {'title':'Results',
+                     'width':400,
+                     'height':300};
+
+      // Instantiate and draw our chart, passing in some options.
+      var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+      chart.draw(data, options);
+    }
+    </script>
+</head>"""        
+
         html = html + "<body>"
+
+        html = html + '<div id="chart_div"></div>'
 
         counterList = []
 
@@ -321,7 +368,7 @@ class ResultsPage(webapp.RequestHandler):
                             counter.q3a3 = counter.q3a3 + 1
 
         for survey in surveys:
-
+ 
             if (survey.q1a1 != '') or (survey.q1a2 != '') or (survey.q1a3 != '') \
             or (survey.q2a1 != '') or (survey.q2a2 != '') or (survey.q2a3 != '') \
             or (survey.q3a1 != '') or (survey.q3a2 != '') or (survey.q3a3 != '') :
