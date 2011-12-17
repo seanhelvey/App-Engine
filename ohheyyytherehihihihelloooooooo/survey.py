@@ -290,12 +290,7 @@ class ResultsPage(webapp.RequestHandler):
       var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
       chart.draw(data, options);
     }
-    </script>
-</head>"""        
-
-        html = html + "<body>"
-
-        html = html + '<div id="chart_div"></div>'
+    </script>"""        
 
         counterList = []
 
@@ -431,7 +426,7 @@ class ResultsPage(webapp.RequestHandler):
         #for counter in counterList:
         #html = html + counter.name
 
-        html = html + "</body></html>"
+        html = html + '</head><body><div id="chart_div"></div></body></html>'
         self.response.out.write(html)
 
 app = webapp.WSGIApplication([('/', SurveyInputPage),('/results',ResultsPage)], debug=True)
