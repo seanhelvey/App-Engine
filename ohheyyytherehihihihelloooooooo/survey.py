@@ -349,16 +349,31 @@ class ResultsPage(webapp.RequestHandler):
       eval("data" + num + ".addColumn('string', 'Answer');");
       eval("data" + num + ".addColumn('number', 'Number');");
       eval("variable = data" + num + ";");
-      variable.addRows([['"""
-            html = html + "Carrots"
-            html = html + "', 3],['"
-            html = html + "Candy"
-            html = html + """', 1],
-        ['Olives', 1],
-        ['Zucchini', 1],
-        ['Pepperoni', 2]
-      ]);
+      variable.addRows("""
 
+            #start of items
+            html = html + "[['"
+
+            #first item
+            html = html + "Apples"
+            html = html + "', "
+            html = html + "3"
+            html = html + "]"
+
+            #delimeter
+            html = html + ",['"
+            
+            #next item
+            html = html + "Oranges"
+            html = html + "', "
+            html = html + "1"
+            html = html + "]"
+
+            #end of items
+            html = html + ",]);"
+            
+            html = html + """
+            
       // Set chart options
       eval("var options" + num + "= {'title':'Results" + num + "','width':400,'height':300};");
 
@@ -438,8 +453,6 @@ class ResultsPage(webapp.RequestHandler):
                     if counter.name == survey.name:
                         #html = html + survey.q3a3 + " " + str(counter.q3a3) + "<br>"
                         x=2
-
-
 
         #for counter in counterList:
         #html = html + counter.name
