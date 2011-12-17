@@ -339,19 +339,21 @@ class ResultsPage(webapp.RequestHandler):
       // draws it.
       function drawChart() {
 
+      num = 1;"""
 
-      // Create the data table.
-      num = 1;
+        for survey in surveys:
+
+            html = html + """// Create the data table.
 
       eval("var data" + num + "= new google.visualization.DataTable();");
       eval("data" + num + ".addColumn('string', 'Answer');");
       eval("data" + num + ".addColumn('number', 'Number');");
       eval("variable = data" + num + ";");
       variable.addRows([['"""
-        html = html + "Carrots"
-        html = html + "', 3],['"
-        html = html + "Candy"
-        html = html + """', 1],
+            html = html + "Carrots"
+            html = html + "', 3],['"
+            html = html + "Candy"
+            html = html + """', 1],
         ['Olives', 1],
         ['Zucchini', 1],
         ['Pepperoni', 2]
@@ -363,13 +365,8 @@ class ResultsPage(webapp.RequestHandler):
       // Instantiate and draw our chart, passing in some options.
       eval("var chart" + num + "= new google.visualization.PieChart(document.getElementById('chart_div" + num + "'));");
       eval("chart" + num + ".draw(data" + num + ", options" + num + ");");
-    }
-    </script>"""        
-
-        for survey in surveys:
+      num = num + 1;"""
  
-
-
             if (survey.q1a1 != '') or (survey.q1a2 != '') or (survey.q1a3 != '') \
             or (survey.q2a1 != '') or (survey.q2a2 != '') or (survey.q2a3 != '') \
             or (survey.q3a1 != '') or (survey.q3a2 != '') or (survey.q3a3 != '') :
@@ -447,7 +444,15 @@ class ResultsPage(webapp.RequestHandler):
         #for counter in counterList:
         #html = html + counter.name
 
-        html = html + '</head><body><div id="chart_div1"></div><div id="chart_div2"></div></body></html>'
+        #curly brace here below is end of prior javascript function
+        html = html + '}</script></head><body>'
+
+        number = 1
+        for survey in surveys:
+            html = html + '<div id="chart_div' + str(number) + '"></div>'
+            number = number + 1
+
+        html = html + '</body></html>'
 
         self.response.out.write(html)
 
