@@ -322,7 +322,7 @@ class ResultsPage(webapp.RequestHandler):
       
         html = """
       <html><head><title></title>
-      <link type="text/css" rel="stylesheet" href="/static/survey.css" />
+      <link type="text/css" rel="stylesheet" href="/static/surveyMod.css" />
 
     <!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>

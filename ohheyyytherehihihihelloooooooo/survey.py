@@ -1,3 +1,10 @@
+#Sean Helvey
+#N12031782
+
+#------------------------------------------------------------
+#comments are meant for you, the developer, not for users..
+#Users please see userGuide.otd in the project folder!
+#Developers can refer developerGuide.otd for more information.
 
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
@@ -10,6 +17,11 @@ import surveyDB
 import cgitb
 cgitb.enable()
 
+#------------------------------------------------------------
+#SurveyForm class
+#It would be redundant to define fields in both model and form.
+#Here we create SurveyForm with a Django helper class.
+#Excluded fields are not displayed to the user in the form.
 class SurveyForm(djangoforms.ModelForm):                                     
     class Meta:                                                                
         model = surveyDB.FrontPage
@@ -317,8 +329,10 @@ class ResultsPage(webapp.RequestHandler):
                         if counter.name == survey.name:
                             counter.q3a3 = counter.q3a3 + 1
 
-        #==============================================
+        #------------------------------------------------------------
         #Begin javascript pie chart
+        #
+        #
       
         html = """
       <html><head><title></title>
