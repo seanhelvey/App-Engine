@@ -3,8 +3,8 @@
 
 #------------------------------------------------------------
 #comments are meant for you, the developer, not for users..
-#Users please see UserGuide.otd in the project folder!
-#Developers can refer DeveloperGuide.otd for more information.
+#Users please see UserGuide.odt in the project folder!
+#Developers can refer DeveloperGuide.odt for more information.
 
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
@@ -259,10 +259,11 @@ class Counter(object):
 #----------------------------------------
 #ResultsPage calculates and displays results 
 class ResultsPage(webapp.RequestHandler):
+
+    #Called to handle an HTTP GET request. Overridden by handler subclasses.
     def get(self):
         surveys = db.GqlQuery("SELECT * FROM FrontPage WHERE name != ''")        
         responses = db.GqlQuery("SELECT * FROM FrontPage WHERE name = '' AND choice = ''")
-        #html = template.render('templates/header.html', {})
 
         counterList = []
 
