@@ -3,8 +3,8 @@
 
 #------------------------------------------------------------
 #comments are meant for you, the developer, not for users..
-#Users please see userGuide.otd in the project folder!
-#Developers can refer developerGuide.otd for more information.
+#Users please see UserGuide.otd in the project folder!
+#Developers can refer DeveloperGuide.otd for more information.
 
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
@@ -28,20 +28,29 @@ class SurveyForm(djangoforms.ModelForm):
         exclude = ['choice','which_user','submit','results', 'q1a1X', 'q1a2X', 'q1a3X' \
                   , 'q2a1X', 'q2a2X', 'q2a3X', 'q3a1X', 'q3a2X', 'q3a3X']
 
+#------------------------------------------------------------
+#SurveyInputPage class
+#Defining a request handler class to handle requests
 class SurveyInputPage(webapp.RequestHandler):
+
+    #Called to handle an HTTP GET request. Overridden by handler subclasses.
     def get(self):
 
         html = template.render('templates/header.html', {})
         html = html + '<div id="wrapper">'
         html = html + template.render('templates/form_start.html', {'action':'/'})
+
+        #This gives us all surveys
         surveys = db.GqlQuery("SELECT * FROM FrontPage WHERE name != ''")
         html = html +  "<h3>Do you want to take one of these surveys?<br></h3>"
 
+        #Radio if user wants to take survey
         for survey in surveys:
             x = survey.name
             x = x.replace(" ","_")
             html = html + "<INPUT TYPE=RADIO NAME='choice' VALUE=" + x + "> %s" %survey.name + "<br>"
             
+        #String fields if users wants to make survey
         html = html +  "<h3>Or would you like to make your own survey?<br></h3>"
         html = html + str(SurveyForm(auto_id=False))
         html = html + template.render('templates/form_end.html', {'sub_title': 'Submit'})
@@ -49,9 +58,11 @@ class SurveyInputPage(webapp.RequestHandler):
         html = html + template.render('templates/footer.html', {'links': ''})
         self.response.out.write(html)
 
+    #Called to handle an HTTP POST request. Overridden by handler subclasses.
     def post(self): 
         
         front_page = surveyDB.FrontPage()
+
         front_page.name = self.request.get('name')
 
         front_page.q1 = self.request.get('q1')
@@ -90,15 +101,7 @@ class SurveyInputPage(webapp.RequestHandler):
                 #take the survey that is chosen by the user
                 if y == z:
                     html = template.render('templates/header.html', {})        
-                    #html = html + template.render('templates/form_start.html', {'action':'/results'})
                     html = html + template.render('templates/form_start.html', {})
-                    
-                    #for answer in userAnswered:
-                    #    html = html + str(answer.which_user) + " "
-                    #    html = html + str(currentUser) + "<br>"
-                        
-                    #if str(answer.which_user) == str(currentUser):
-                    #    html = html + "partyTime"
                     
                     if(survey.q1 != ''):
                         html = html + survey.q1 + "<br>"
@@ -238,7 +241,8 @@ class SurveyInputPage(webapp.RequestHandler):
             html = html + template.render('templates/footer.html',{'links': 'Enter <a href="/results">results</a>.'})            
             self.response.out.write(html)
 
-
+#----------------------------------------
+#Counter is used in ResultsPage below
 class Counter(object):
     def __init__(self, name=None):
         self.name = name
@@ -252,7 +256,8 @@ class Counter(object):
         self.q3a2 = 0
         self.q3a3 = 0
 
- 
+#----------------------------------------
+#ResultsPage calculates and displays results 
 class ResultsPage(webapp.RequestHandler):
     def get(self):
         surveys = db.GqlQuery("SELECT * FROM FrontPage WHERE name != ''")        
@@ -331,8 +336,6 @@ class ResultsPage(webapp.RequestHandler):
 
         #------------------------------------------------------------
         #Begin javascript pie chart
-        #
-        #
       
         html = """
       <html><head><title></title>
@@ -355,6 +358,7 @@ class ResultsPage(webapp.RequestHandler):
 
       num = 1;"""
 
+        #This is actually happening within the JS funtion drawChart()
         for survey in surveys:
 
             html = html + """// Create the data table.
@@ -377,6 +381,9 @@ class ResultsPage(webapp.RequestHandler):
 
       html = html + """
  
+            #The html below can be uncommented or controlled using statements.
+            #Text would be displayed correctly if the comments were removed.
+            #This may be desireable as currently the JS only displays in Firefox
             if (survey.q1a1 != '') or (survey.q1a2 != '') or (survey.q1a3 != '') \
             or (survey.q2a1 != '') or (survey.q2a2 != '') or (survey.q2a3 != '') \
             or (survey.q3a1 != '') or (survey.q3a2 != '') or (survey.q3a3 != '') :
@@ -391,6 +398,7 @@ class ResultsPage(webapp.RequestHandler):
                 for counter in counterList:
                     if counter.name == survey.name:
                         #html = html + survey.q1a1 + " " + str(counter.q1a1) + "<br>"
+                        #Note this is still part of the Javascript here in quotes below
                         html = html + "variableA.addRows([['"+ survey.q1a1 + "'," + str(counter.q1a1) + "]]);"
                         x=2
                         
@@ -473,9 +481,6 @@ class ResultsPage(webapp.RequestHandler):
       eval("var chartC" + num + "= new google.visualization.PieChart(document.getElementById('chart_divC" + num + "'));");
       eval("chartC" + num + ".draw(dataC" + num + ", optionsC" + num + ");");
       num = num + 1;"""
-
-        #for counter in counterList:
-        #html = html + counter.name
 
         #curly brace here below is end of prior javascript function
         html = html + '}</script></head><body>'
