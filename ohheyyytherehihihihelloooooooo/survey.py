@@ -359,7 +359,7 @@ class ResultsPage(webapp.RequestHandler):
 
       num = 1;"""
 
-        #This is actually happening within the JS funtion drawChart()
+        #This is actually generating the JS funtion drawChart()
         for survey in surveys:
 
             html = html + """// Create the data table.
